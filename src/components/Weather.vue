@@ -110,7 +110,7 @@
  
 		methods: {
 			getWeather() {
-				axios.get('http://api.openweathermap.org/data/2.5/weather?lat=' + this.userLat + '&lon=' + this.userLon + '&units=metric' + '&appid=' + this.apiKey)
+				axios.get('https://api.openweathermap.org/data/2.5/weather?lat=' + this.userLat + '&lon=' + this.userLon + '&units=metric' + '&appid=' + this.apiKey)
 				.then((response) => {
 					this.userPlace = response.data['name'];
 					this.weather = response.data['weather'][0]['description'];
