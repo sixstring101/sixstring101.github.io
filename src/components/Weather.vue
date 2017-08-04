@@ -3,6 +3,7 @@
 		<md-layout md-gutter>
 			<md-layout md-flex="100" md-align="center" md-flex-offset="0">
 				<div class="user_weather">
+
 					<div v-if="weatherClass === 'thunderstorm'" class="icon thunder-storm">
 						<div class="cloud"></div>
 						<div class="lightning">
@@ -43,8 +44,13 @@
 						<div class="rain"></div>
 					</div>
 
+					<div v-else>
+						<h5 class="weatherStatusDisabled">Can't Detect Weather Status</h5>
+					</div>
+
 					<div class="user_info">
-						<h3 class="user_place">{{ userPlace }}, {{ userCountry }}</h3>
+						<h3 v-if="userPlace" class="user_place">{{ userPlace }}, {{ userCountry }}</h3>
+						<h3 v-else class="user_place">Unknown Location</h3>
 						<h5 class="user_date">{{  dateNow }}</h5>
 					</div>
 				</div>
@@ -53,7 +59,8 @@
 		</md-layout>
 
 		<md-layout md-align="center" md-gutter>
-			<h1 class="loc_temp">{{ locTemp }}</h1>
+			<h1 v-if="locTemp" class="loc_temp">{{ locTemp }}</h1>
+			<h3 v-else class="loc_temp_disabled">Please enable your location!</h3>
 		</md-layout>
 
 	</div>
@@ -151,6 +158,10 @@
 		color: #fff;
 	}
 
+	.loc_temp_disabled {
+		margin-top: 15%;
+	}
+
 	#app {
 		width: 100%;
 	    height: 100vh;
@@ -189,8 +200,14 @@
 		margin-bottom: 0;
 	}
 
+	.weatherStatusDisabled,
 	.user_info h5 {
 		font-weight: 100;
+	}
+
+	.weatherStatusDisabled {	
+		margin-right: 20px;
+		margin-top: 25px;
 	}
 
 	.user_info {
