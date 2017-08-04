@@ -45,12 +45,12 @@
 					</div>
 
 					<div v-else>
-						<h5 class="weatherStatusDisabled">Can't Detect Weather Status</h5>
+						<h5 class="weatherStatusDisabled">Can't Detect <span class="custom_text">Weather Condition <md-icon class="md-warn">cloud_queue</md-icon></span></h5>
 					</div>
 
 					<div class="user_info">
 						<h3 v-if="userPlace" class="user_place">{{ userPlace }}, {{ userCountry }}</h3>
-						<h3 v-else class="user_place">Unknown Location</h3>
+						<h3 v-else class="user_place">Unknown <span class="custom_text">Location</span><md-icon class="md-warn">location_on</md-icon></h3>
 						<h5 class="user_date">{{  dateNow }}</h5>
 					</div>
 				</div>
@@ -60,7 +60,7 @@
 
 		<md-layout md-align="center" md-gutter>
 			<h1 v-if="locTemp" class="loc_temp">{{ locTemp }}</h1>
-			<h3 v-else class="loc_temp_disabled">Please enable your location!</h3>
+			<h3 v-else class="loc_temp_disabled">Please turn on your <span class="custom_text">PHONE</span><md-icon class="md-warn">stay_current_portrait</md-icon> location!</h3>
 		</md-layout>
 
 	</div>
@@ -156,6 +156,10 @@
 	body {
 		font-family: Open Sans !important;
 		color: #fff;
+	}
+
+	.custom_text {
+		color: rgba(245, 5, 103, 0.87);
 	}
 
 	.loc_temp_disabled {

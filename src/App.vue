@@ -101,6 +101,10 @@ export default {
 
 	.md-bottom-bar {
 		position: absolute;
-		bottom: 0;
+	}
+
+	.md-fab.md-fab-bottom-right, .md-speed-dial.md-fab-bottom-right {
+	    right: 60px;
+	    bottom: 80px;
 	}
 </style>
