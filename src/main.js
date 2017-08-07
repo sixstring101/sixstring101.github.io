@@ -10,7 +10,10 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 import moment from "moment";
 import VueMomentJS from "vue-momentjs";
+import lodash from 'lodash'
+import VueLodash from 'vue-lodash/dist/vue-lodash.min'
  
+Vue.use(VueLodash, lodash)
 Vue.use(VueMomentJS, moment);
 Vue.use(VueMaterial)
 Vue.use(VueAxios, axios);

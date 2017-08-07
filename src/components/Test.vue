@@ -2,9 +2,48 @@
 	<div class="weather">
  		<md-layout md-gutter>
 			<md-layout md-flex="100" md-align="center" md-flex-offset="0">
-
 				<div class="user_weather">
-					<i v-if="weatherClass" v-bind:class="weatherClass(weatherID)" class="wi"></i>
+
+					<div v-if="weatherClass === 'thunderstorm'" class="icon thunder-storm">
+						<div class="cloud"></div>
+						<div class="lightning">
+							<div class="bolt"></div>
+							<div class="bolt"></div>
+						</div>
+				  	</div>
+
+					<div v-else-if ="weatherClass === 'drizzle'" class="icon sun-shower">
+					  <div class="cloud"></div>
+					  <div class="sun">
+					    <div class="rays"></div>
+					  </div>
+					  <div class="rain"></div>
+					</div>
+
+					<div v-else-if ="weatherClass === 'clouds'" class="icon cloudy">
+					  <div class="cloud"></div>
+					  <div class="cloud"></div>
+					</div>
+
+					<div v-else-if ="weatherClass === 'snow'" class="icon flurries">
+						<div class="cloud"></div>
+						<div class="snow">
+							<div class="flake"></div>
+							<div class="flake"></div>
+						</div>
+					</div>
+
+					<div v-else-if ="weatherClass === 'clear' " class="icon sunny">
+						<div class="sun">
+							<div class="rays"></div>
+						</div>
+					</div>
+
+					<div v-else-if ="weatherClass === 'rain' " class="icon rainy">
+						<div class="cloud"></div>
+						<div class="rain"></div>
+					</div>
+
 					<div v-else>
 						<h5 class="weatherStatusDisabled">Can't Detect <span class="custom_text">Weather Condition <md-icon class="md-warn">cloud_queue</md-icon></span></h5>
 					</div>
@@ -19,27 +58,18 @@
 			</md-layout>
 		</md-layout>
 
-		<md-layout md-align="center" class="loc_temp_wrapper">
-			<h1 v-if="locTemp" class="loc_temp">{{ locTemp }}<span><sup>&#8451;</sup></span></h1>
+		<md-layout md-align="center" md-gutter>
+			<h1 v-if="locTemp" class="loc_temp">{{ locTemp }}</h1>
 			<h3 v-else class="loc_temp_disabled">Please turn on your <span class="custom_text">PHONE</span><md-icon class="md-warn">stay_current_portrait</md-icon> location!</h3>
-		</md-layout>
+			{{ weather }}
+		</md-layout> -->
 
-		<md-layout md-align="end">
-			<md-layout md-flex="100">
-				<div class="user_weather fivedays" v-for="w in weatherDate">
-					<div class="user_info">
-						<h3 v-if="userPlace" class="user_place">{{ convertDays(w.dt) }}</h3>
-						<h3 v-else class="user_place">Unknown <span class="custom_text">Location</span><md-icon class="md-warn">location_on</md-icon></h3>
-						<h5 class="user_date">{{  convertDate(w.dt) }}</h5>
-					</div>
+		<ul>
+			<li v-for="w in weatherDate">
+				{{ convertDate(w.dt) }} | {{ userPlace }} | {{ w.weather[0].description }} | {{ w.weather[0].id }}
+			</li>
+		</ul>
 
-					<i v-if="weatherClass" v-bind:class="weatherClass(w.weather[0].id)" class="wi"></i>
-					<div v-else>
-						<h5 class="weatherStatusDisabled">Can't Detect <span class="custom_text">Weather Condition <md-icon class="md-warn">cloud_queue</md-icon></span></h5>
-					</div>
-				</div>
-			</md-layout>
-		</md-layout>
 	</div>
 </template>
 
@@ -59,12 +89,7 @@
 				weather: '',
 				weatherID: '',
 				weatherDate: [],
-				weatherTomorrow: '',
-				weatherThree: '',
-				weatherFour: '',
-				weatherFive: '',
-				weatherSix: '',
-				weatherSeven: '',
+
 			}
 		},
 
@@ -73,40 +98,47 @@
 		},
 
 		computed: {
+			weatherClass: function() {
+				let wID = this.weatherID;
+
+				if(wID >= 200 && wID <= 232) {
+					return 'thunderstorm';
+				} else if (wID >= 300 && wID <= 321 ) {
+					return 'drizzle';
+				} else if (wID >= 500 && wID <= 531 ) {
+					return 'rain';
+				} else if (wID >= 701 && wID <= 781 ) {
+					return 'snow';
+				} else if (wID == 800) {
+					return 'clear';
+				} else if (wID >= 801 && wID <= 804 ) {
+					return 'clouds';
+				} else if (wID >= 900 && wID <= 906 ) {
+					return 'extreme';
+				}
+			},
+
 			dateNow() {
 				return this.$moment().format('dddd, MMMM D');
 			},
 
+			wDate() {
+				let a = this.weatherDate;
+				let b = [];
+				while(a.length) {
+				    console.log(a.splice(0,8));
+				    b = a.splice(0,8);
+				}
+				return b.dt_txt
+			}
+
 		},
  
 		methods: {
-			weatherClass: function(wID) {
-				if(wID >= 200 && wID <= 232) {
-					return 'wi-thunderstorm';
-				} else if (wID >= 300 && wID <= 321 ) {
-					return 'wi-sleet';
-				} else if (wID >= 500 && wID <= 531 ) {
-					return 'wi-rain';
-				} else if (wID >= 701 && wID <= 781 ) {
-					return 'wi-snow';
-				} else if (wID == 800) {
-					return 'wi-day-sunny';
-				} else if (wID >= 801 && wID <= 804 ) {
-					return 'wi-cloudy';
-				} else if (wID >= 900 && wID <= 906 ) {
-					return 'wi-strong-wind';
-				}
-			},
-
-			convertDays(a) {
-				let x = this.$moment.unix(a).calendar();
-				x = x.split(/\b/)[0];
-				console.log(x)
-				return x;
-			},
-
 			convertDate(a) {
-				return this.$moment.unix(a).format('dddd, MMMM D');
+				let x = this.$moment();
+				console.log(x)
+				return this.$moment.unix(a).calendar();
 			},
 
 			getWeather() {
@@ -116,15 +148,7 @@
 					this.userCountry = response.data['city']['country'];
 					this.weather = response.data['list'][0]['weather'][0]['description'];
 					this.weatherDate = response.data['list'];
-					this.weatherID = response.data['list'][0]['weather'][0]['id'];
-					this.locTemp = response.data['list'][0]['temp']['max'];
-					this.weatherTomorrow = response.data['list'][1];
-					this.weatherThree = response.data['list'][2];
-					this.weatherFour = response.data['list'][3];
-					this.weatherFive = response.data['list'][4];
-					this.weatherSix = response.data['list'][5];
-					this.weatherSeven = response.data['list'][6];
-					console.log(response.data)
+					console.log(this.weatherDate)
 				})
 			},
 
@@ -154,38 +178,12 @@
 
 <style>
 
-	sup {
-		font-size: .2em;
+	.test {
+		background: pink;
 	}
-
 	body {
 		font-family: Open Sans !important;
 		color: #000;
-	}
-
-	.fivedays .user_info:before {
-		width: 0 !important;
-	}
-
-	.fivedays .user_info {
-		text-align: right;
-	}
-
-	.fivedays .wi {
-		margin-left: 45px;
-	}
-
-	.fivedays {
-		border-bottom: 1px solid #fff !important;
-	    padding-bottom: 20px;
-	    padding-top: 0px;
-		margin-top: 0 !important;
-	}
-
-	.wi {
-		margin-top: 15px;
-	    margin-right: 21px;
-	    font-size: 3em;
 	}
 
 	.custom_text {
@@ -198,7 +196,7 @@
 
 	#app {
 		width: 100%;
-	    height: 100%;
+	    height: 100vh;
 	    margin: 0;
 	}
 
@@ -259,19 +257,11 @@
 		height: 100%;
 		left: -15px;
 		position: absolute;
+		background: #fff;
 	}
 
 	.loc_temp {
-		font-size: 12em;
+		font-size: 20em;
 	    font-weight: 100;
-	    margin-left: 55px;
-	    margin-top: 80px;
-    	margin-bottom: 85px;
-	}
-
-	.loc_temp_wrapper {
-		border-top: 1px solid;
-	    border-bottom: 1px solid;
-	    margin-top: 20px;
 	}
 </style>
