@@ -106,7 +106,7 @@
 			},
 
 			convertDate(a) {
-				return this.$moment.unix(a).format('dddd, MMMM D');
+				return this.$moment.unix(a).format('MMMM D');
 			},
 
 			getWeather() {
