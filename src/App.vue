@@ -2,7 +2,7 @@
 	<div id="app" v-bind:class="themeName">
   		<app-weather></app-weather>
 
- 		<md-speed-dial md-mode="scale" class="md-fab-bottom-left">
+ 		<md-speed-dial md-mode="scale" class="md-fab-bottom-right">
 			<md-button class="md-fab" md-fab-trigger>
 				<md-icon md-icon-morph>close</md-icon>
 				<md-icon>color_lens</md-icon>
