@@ -25,8 +25,8 @@
 		</md-layout>
 
 		<md-layout md-align="end">
-			<md-layout md-flex="100" class="fivedays_wrapper">
-				<div class="user_weather fivedays" v-for="w in sliceArr(weatherDate)">
+			<md-layout md-flex="100">
+				<div class="user_weather fivedays" v-for="w in weatherDate">
 					<div class="user_info">
 						<h3 v-if="userPlace" class="user_place">{{ convertDays(w.dt) }}</h3>
 						<h3 v-else class="user_place">Unknown <span class="custom_text">Location</span><md-icon class="md-warn">location_on</md-icon></h3>
@@ -65,11 +65,6 @@
 				weatherFive: '',
 				weatherSix: '',
 				weatherSeven: '',
-				tests: [
-					{id: 1, a: 'a'},
-					{id: 2, a: 'b'},
-					{id: 3, a: 'b'},
-				],
 			}
 		},
 
@@ -85,10 +80,6 @@
 		},
  
 		methods: {
-			sliceArr: function(a) {
-				return a.slice(1);
-			},
-
 			weatherClass: function(wID) {
 				if(wID >= 200 && wID <= 232) {
 					return 'wi-thunderstorm';
@@ -167,15 +158,9 @@
 		font-size: .2em;
 	}
 
-	html,
 	body {
 		font-family: Open Sans !important;
 		color: #000;
-		height: 100%;
-	}
-
-	.fivedays_wrapper {
-		margin-top: 50px;
 	}
 
 	.fivedays .user_info:before {
@@ -183,7 +168,7 @@
 	}
 
 	.fivedays .user_info {
-		text-align: right;
+		text-align: left;
 	}
 
 	.fivedays .wi {
@@ -195,6 +180,7 @@
 	    padding-bottom: 20px;
 	    padding-top: 0px;
 		margin-top: 0 !important;
+		justify-content: left !important;
 	}
 
 	.wi {
@@ -223,7 +209,7 @@
 
 	.user_weather {
 		display: inline-flex;
-		width: 50%;
+		width: 100%;
 		margin-top: 35px;
     	justify-content: center;
 	}
@@ -276,7 +262,7 @@
 	}
 
 	.loc_temp {
-		font-size: 7em;
+		font-size: 12em;
 	    font-weight: 100;
 	    margin-left: 55px;
 	    margin-top: 80px;
